@@ -1,6 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
-const Comment = require("../models/Comment");
+const Review = require("../models/Review");
 
 const PostController = {
   async create(req, res, next) {
@@ -37,7 +37,7 @@ const PostController = {
   async delete(req, res) {
     try {
       await Post.findByIdAndDelete(req.params._id);
-      await Comment.deleteMany({ postId: req.params._id });
+      await Review.deleteMany({ postId: req.params._id });
       res.send({ message: "Post deleted succesfully" });
     } catch (error) {
       console.error(error);
@@ -54,7 +54,7 @@ const PostController = {
           select: "username",
         })
         .populate({
-          path: "commentIds",
+          path: "reviewIds",
           populate: {
             path: "userId",
             select: "username",
@@ -72,7 +72,7 @@ const PostController = {
   async getById(req, res) {
     try {
       const post = await Post.findById(req.params._id).populate('userId').populate({
-        path: "commentIds",
+        path: "reviewIds",
         populate: {
           path: "userId",
           select: "username",
