@@ -3,12 +3,6 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: [true, "Please, enter a username"],
-      unique: true,
-      trim: true,
-    },
     email: {
       type: String,
       required: [true, "Please, enter an email"],
@@ -16,21 +10,35 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    zipCode: {
+      type: String,
+      required: [true, "Please, enter a Zip Code"],
+    },
+    firstname: {
+      type: String,
+      required: [true, "Please, enter a First Name"],
+    },
+    lastname: {
+      type: String,
+      required: [true, "Please, enter a Last Name"],
+    },
     password: {
       type: String,
       required: [true, "Please, enter a password"],
     },
-    avatar: {
-      type: String,
+    shoppingPreference: Boolean,
+    dateOfBirth: {
+      type: Date,
     },
+    emailUpdates: Boolean,
+    agree: Boolean,
     role: {
       type: String,
       default: "user",
     },
     confirmed: Boolean,
     tokens: [],
-    followers: [{ type: ObjectId, ref: "User" }],
-    following: [{ type: ObjectId, ref: "User" }],
+    orderIds: [{ type: ObjectId, ref: "Order" }],
     postIds: [{ type: ObjectId, ref: "Post" }],
     likesList: [{ type: ObjectId, ref: "Post" }],
   },
@@ -41,6 +49,7 @@ UserSchema.methods.toJSON = function () {
   const user = this._doc;
   delete user.tokens;
   delete user.password;
+  delete user.role;
   return user;
 };
 

@@ -3,17 +3,26 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const PostSchema = new mongoose.Schema(
   {
-    // title: {
-    //   type: String,
-    //   required: [true, "Please, enter a title"],
-    // },
-    content: {
+    image: [{
       type: String,
-      required: [true, "Please, enter content"],
-    },
-    image: {
+    }],
+    title: {
       type: String,
+      required: [true, "Please, enter a title"],
     },
+    description: {
+      type: String,
+      required: [true, "Please, enter description"],
+    },
+    sex: {
+      type: String,
+      required: [true, "Please, enter sex"],
+    },
+    color: {
+      type: String,
+      required: [true, "Please, enter color"],
+    },
+    size: [{ type: String, required: true }],
     likes: [{ type: ObjectId, ref: "User" }],
     userId: { type: ObjectId, ref: "User" },
     commentIds: [{ type: ObjectId, ref: "Comment" }],
