@@ -14,6 +14,7 @@ app.use(cors());
 app.use("/posts", require("./routes/posts"));
 app.use("/users", require("./routes/users"));
 app.use("/comments", require("./routes/comments"));
+app.use("/orders", require("./routes/orders"));
 app.use("uploads", express.static("uploads"));
 
 app.use(handleTypeError);
