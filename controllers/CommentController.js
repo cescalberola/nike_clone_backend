@@ -1,5 +1,5 @@
 const Comment = require("../models/Comment");
-const Post = require("../models/Post");
+// const Post = require("../models/Post");
 const User = require("../models/User");
 
 const CommentController = {
@@ -11,11 +11,11 @@ const CommentController = {
         // image: req.file.filename,
       });
 
-      await Post.findByIdAndUpdate(
-        req.params._id,
-        { $push: { commentIds: comment._id } },
-        { new: true }
-      );
+      // await Post.findByIdAndUpdate(
+      //   req.params._id,
+      //   { $push: { commentIds: comment._id } },
+      //   { new: true }
+      // );
       res.status(201).send(comment);
     } catch (error) {
       console.error(error);
@@ -27,11 +27,11 @@ const CommentController = {
     try {
       await Comment.findByIdAndDelete(req.params._id);
 
-      await Post.findOneAndUpdate(
-        { commentIds: req.params._id },
-        { $pull: { commentIds: req.params._id } },
-        { new: true }
-      );
+      // await Post.findOneAndUpdate(
+      //   { commentIds: req.params._id },
+      //   { $pull: { commentIds: req.params._id } },
+      //   { new: true }
+      // );
 
       res.status(200).send({ message: "Comment deleted succesfully." });
     } catch (error) {

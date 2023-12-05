@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
-const PostSchema = new mongoose.Schema(
+const ProductSchema = new mongoose.Schema(
   {
     image: [{
       type: String,
@@ -30,6 +30,6 @@ const PostSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Post = mongoose.model("Post", PostSchema);
+const Product = mongoose.model("Product", ProductSchema);
 
-module.exports = Post;
+module.exports = Product;

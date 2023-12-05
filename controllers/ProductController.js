@@ -1,22 +1,21 @@
-const Post = require("../models/Post");
+const Product = require("../models/Product");
 const User = require("../models/User");
-const Comment = require("../models/Comment");
+const Review = require("../models/Review");
 
-const PostController = {
+const ProductController = {
   async create(req, res, next) {
     try {
-      const post = await Post.create({
+      const product = await Product.create({
         ...req.body,
         userId: req.user._id,
         // image: req.file.filename,
       });
       await User.findByIdAndUpdate(
         req.user._id,
-        { $push: { postIds: post._id } },
+        { $push: { productIds: product._id } },
         { new: true }
       );
-
-      res.status(201).send(post);
+      res.status(201).send({ message: "Product created successfully", product });
     } catch (error) {
       console.error(error);
       next(error);
@@ -37,7 +36,7 @@ const PostController = {
   async delete(req, res) {
     try {
       await Post.findByIdAndDelete(req.params._id);
-      await Comment.deleteMany({ postId: req.params._id });
+      await Review.deleteMany({ postId: req.params._id });
       res.send({ message: "Post deleted succesfully" });
     } catch (error) {
       console.error(error);
@@ -54,7 +53,7 @@ const PostController = {
           select: "username",
         })
         .populate({
-          path: "commentIds",
+          path: "reviewIds",
           populate: {
             path: "userId",
             select: "username",
@@ -71,13 +70,15 @@ const PostController = {
 
   async getById(req, res) {
     try {
-      const post = await Post.findById(req.params._id).populate('userId').populate({
-        path: "commentIds",
-        populate: {
-          path: "userId",
-          select: "username",
-        },
-      })
+      const post = await Post.findById(req.params._id)
+        .populate("userId")
+        .populate({
+          path: "reviewIds",
+          populate: {
+            path: "userId",
+            select: "username",
+          },
+        });
       res.send(post);
     } catch (error) {
       console.error(error);
@@ -154,4 +155,4 @@ const PostController = {
   },
 };
 
-module.exports = PostController;
+module.exports = ProductController;

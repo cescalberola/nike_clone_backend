@@ -21,7 +21,7 @@ const UserController = {
         password: hash,
         avatar: avatar,
         confirmed: false,
-        role: "user",
+        // role: "user",
       });
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, {
         expiresIn: "48h",
