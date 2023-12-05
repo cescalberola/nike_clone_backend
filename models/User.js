@@ -14,11 +14,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, enter a Zip Code"],
     },
-    firstname: {
+    firstName: {
       type: String,
       required: [true, "Please, enter a First Name"],
     },
-    lastname: {
+    lastName: {
       type: String,
       required: [true, "Please, enter a Last Name"],
     },
@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, enter a password"],
     },
-    shoppingPreference: Boolean,
+    shoppingPreference: String,
     dateOfBirth: {
       type: Date,
     },
@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema(
     confirmed: Boolean,
     tokens: [],
     orderIds: [{ type: ObjectId, ref: "Order" }],
-    postIds: [{ type: ObjectId, ref: "Post" }],
+    productIds: [{ type: ObjectId, ref: "Product" }],
     likesList: [{ type: ObjectId, ref: "Post" }],
   },
   { timestamps: true }

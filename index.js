@@ -11,7 +11,7 @@ dbConnection();
 app.use(express.json());
 app.use(cors());
 
-app.use("/posts", require("./routes/posts"));
+app.use("/products", require("./routes/products"));
 app.use("/users", require("./routes/users"));
 app.use("/comments", require("./routes/comments"));
 app.use("uploads", express.static("uploads"));
