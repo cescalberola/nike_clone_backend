@@ -13,13 +13,9 @@ const UserController = {
       if (req.body.password) {
         hash = bcrypt.hashSync(req.body.password, 10);
       }
-      // let avatar = null;
-      // if (req.file) { avatar = req.file.filename; }
-
-      const user = await User.create({
+      const newUser = await User.create({
         ...req.body,
         password: hash,
-        // avatar: avatar,
         confirmed: false,
         role: "user",
       });
@@ -43,7 +39,7 @@ const UserController = {
       // user.tokens.push(token);
       // await user.save();
       // res.status(201).send({ msg: "User created successfully.", loggedUser: user, token });
-      res.status(201).send({ msg: "User created successfully.", user });
+      res.status(201).send({ msg: "User created successfully.", newUser });
     } catch (error) {
       next(error);
     }
@@ -229,7 +225,7 @@ const UserController = {
 
   async getById(req, res, next) {
     try {
-      const foundUser = await User.findById({ _id: req.params._id });
+      const foundUser = await User.findById({ _id: `req.params._id` });
       if (!foundUser) {
         return res.status(400).send({ msg: `ID: ${req.params._id} not found` });
       } else {

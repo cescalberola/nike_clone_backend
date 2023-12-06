@@ -29,6 +29,7 @@ const UserSchema = new mongoose.Schema(
     shoppingPreference: String,
     dateOfBirth: {
       type: Date,
+      required: [true, "Please, enter an email"],
     },
     emailUpdates: Boolean,
     agree: {
