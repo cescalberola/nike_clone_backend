@@ -128,14 +128,12 @@ const UserController = {
   async getLoggedUser(req, res) {
     try {
       const user = await User.findById({ _id: req.user._id }).populate('productIds')
-      const numOfFollowing = user.following.length;
-      const numOfFollowers = user.followers.length;
-      const numOfProducts = user.productIds.length;
+      const numOfOrderIds = user.orderIds.length;
+      const numOfLikesList = user.likesList.length;
       const loggedUserInfo = {
         user,
-        numOfFollowers,
-        numOfFollowing,
-        numOfProducts,
+        numOfOrderIds,
+        numOfLikesList,
       };
       res.status(200).send(loggedUserInfo);
     } catch (error) {
