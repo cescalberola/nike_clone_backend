@@ -102,16 +102,15 @@ const UserController = {
       if (!foundUser) {
         return res.status(400).send({ msg: "User not found" });
       }
-      let updateFields = {};
-
-      if (req.file) {
-        if (foundUser.avatar) {
-          await fs.unlink(`uploads/${foundUser.avatar}`);
+      const updateFields = {};
+      for (const field in req.body) {
+        if (field !== 'email') {
+          if (field === 'password') {
+            updateFields[field] = bcrypt.hashSync(req.body[field], 10);
+          } else {
+            updateFields[field] = req.body[field];
+          }
         }
-        updateFields.avatar = req.file.filename;
-      }
-      if (req.body.password) {
-        updateFields.password = bcrypt.hashSync(req.body.password, 10);
       }
 
       foundUser = await User.findByIdAndUpdate(req.user._id, updateFields, {

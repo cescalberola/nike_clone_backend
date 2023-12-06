@@ -10,11 +10,7 @@ router.post("/register",
 router.post("/login", UserController.login);
 router.get("/confirm/:emailToken", UserController.confirm);
 router.get("/profile", authentication, UserController.getLoggedUser);
-router.put(
-  "/profile",
-  authentication,
-  // upload.single("avatar"),
-  UserController.updateProfile
+router.put("/profile", authentication, UserController.updateProfile
 );
 router.get("/:_id", UserController.getById);
 // router.get("/name/:firstName", UserController.getByName);
