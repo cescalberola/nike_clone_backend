@@ -31,7 +31,10 @@ const UserSchema = new mongoose.Schema(
       type: Date,
     },
     emailUpdates: Boolean,
-    agree: Boolean,
+    agree: {
+      type: String,
+      required: [true, "Please, first agree with the Privacy Policy and Terms of Use"],
+    },
     role: {
       type: String,
       default: "user",
@@ -40,7 +43,7 @@ const UserSchema = new mongoose.Schema(
     tokens: [],
     orderIds: [{ type: ObjectId, ref: "Order" }],
     productIds: [{ type: ObjectId, ref: "Product" }],
-    likesList: [{ type: ObjectId, ref: "Post" }],
+    likesList: [{ type: ObjectId, ref: "Product" }],
   },
   { timestamps: true }
 );

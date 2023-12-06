@@ -5,7 +5,7 @@ const OrderSchema = new mongoose.Schema(
     {
         status: String,
         userId: { type: ObjectId, ref: "User" },
-        productIds: [{ type: ObjectId, ref: "Post" }],
+        productIds: [{ type: ObjectId, ref: "Product" }],
     },
     { timestamps: true }
 );

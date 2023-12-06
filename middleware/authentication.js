@@ -1,6 +1,6 @@
 const User = require("../models/User");
-const Post = require("../models/Product");
-const Comment = require("../models/Comment");
+const Product = require("../models/Product");
+const Review = require("../models/Review");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const jwt_secret = process.env.JWT_SECRET;
@@ -37,11 +37,11 @@ const isSuperAdmin = async (req, res, next) => {
   next();
 };
 
-const isPostAuthor = async (req, res, next) => {
+const isProductAuthor = async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params._id);
-    if (post.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).send({ msg: `Is not your post` });
+    const product = await Product.findById(req.params._id);
+    if (product.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).send({ msg: `Is not your product` });
     }
 
     next();
@@ -49,15 +49,15 @@ const isPostAuthor = async (req, res, next) => {
     console.error(error);
     return res
       .status(500)
-      .send({ msg: "There was an error when checking the author of the post" });
+      .send({ msg: "There was an error when checking the author of the product" });
   }
 };
 
-const isCommentAuthor = async (req, res, next) => {
+const isReviewAuthor = async (req, res, next) => {
   try {
-    const comment = await Comment.findById(req.params._id);
-    if (comment.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).send({ msg: `Is not your post` });
+    const review = await Review.findById(req.params._id);
+    if (review.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).send({ msg: `Is not your product` });
     }
 
     next();
@@ -65,7 +65,7 @@ const isCommentAuthor = async (req, res, next) => {
     console.error(error);
     return res
       .status(500)
-      .send({ msg: "There was an error when checking the author of the post" });
+      .send({ msg: "There was an error when checking the author of the product" });
   }
 };
 
@@ -73,6 +73,6 @@ module.exports = {
   authentication,
   isAdmin,
   isSuperAdmin,
-  isPostAuthor,
-  isCommentAuthor,
+  isProductAuthor,
+  isReviewAuthor,
 };

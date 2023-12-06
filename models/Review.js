@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
-const CommentSchema = new mongoose.Schema(
+const ReviewSchema = new mongoose.Schema(
   {
     text: {
       type: String,
@@ -12,10 +12,10 @@ const CommentSchema = new mongoose.Schema(
       required: [true, "Please, enter text"],
     },
     userId: { type: ObjectId, ref: "User" },
-    postId: { type: ObjectId, ref: "Post" },
+    productId: { type: ObjectId, ref: "Product" },
   },
   { timestamps: true }
 );
 
-const Comment = mongoose.model("Comment", CommentSchema);
-module.exports = Comment;
+const Review = mongoose.model("Review", ReviewSchema);
+module.exports = Review;
