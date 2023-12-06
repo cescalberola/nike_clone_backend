@@ -3,20 +3,16 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const ReviewSchema = new mongoose.Schema(
   {
-    title: {
+    text: {
       type: String,
-      required: [true, "Please, enter title"],
+      required: [true, "Please, enter text"],
     },
-    message: {
+    text: {
       type: String,
-      required: [true, "Please, enter message"],
-    },
-    rate: {
-      type: Number,
-      required: [true, "Please, enter your rate"],
+      required: [true, "Please, enter text"],
     },
     userId: { type: ObjectId, ref: "User" },
-    postId: { type: ObjectId, ref: "Post" },
+    productId: { type: ObjectId, ref: "Product" },
   },
   { timestamps: true }
 );

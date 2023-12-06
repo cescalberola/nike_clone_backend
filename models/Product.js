@@ -25,7 +25,7 @@ const ProductSchema = new mongoose.Schema(
     size: [{ type: String, required: true }],
     likes: [{ type: ObjectId, ref: "User" }],
     userId: { type: ObjectId, ref: "User" },
-    commentIds: [{ type: ObjectId, ref: "Comment" }],
+    reviewIds: [{ type: ObjectId, ref: "Review" }],
   },
   { timestamps: true }
 );

@@ -24,10 +24,10 @@ const ProductController = {
 
   async update(req, res) {
     try {
-      const post = await Post.findByIdAndUpdate(req.params._id, req.body, {
+      const product = await Product.findByIdAndUpdate(req.params._id, req.body, {
         new: true,
       });
-      res.send({ message: "Post updated successfully!", post });
+      res.send({ message: "Product updated successfully!", product });
     } catch (error) {
       console.error(error);
     }
@@ -35,33 +35,33 @@ const ProductController = {
 
   async delete(req, res) {
     try {
-      await Post.findByIdAndDelete(req.params._id);
-      await Review.deleteMany({ postId: req.params._id });
-      res.send({ message: "Post deleted succesfully" });
+      await Product.findByIdAndDelete(req.params._id);
+      await Review.deleteMany({ productId: req.params._id });
+      res.send({ message: "Product deleted succesfully" });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error trying to remove the post" });
+      res.status(500).send({ message: "Error trying to remove the product" });
     }
   },
 
   async getAll(req, res, next) {
     try {
       const { page = 1, limit = 30 } = req.query;
-      const posts = await Post.find({})
+      const products = await Product.find({})
         .populate({
           path: "userId",
-          select: "username",
+          select: "firstName",
         })
         .populate({
           path: "reviewIds",
           populate: {
             path: "userId",
-            select: "username",
+            select: "firstName",
           },
         })
         .limit(limit)
         .skip((page - 1) * limit);
-      res.status(200).send(posts);
+      res.status(200).send(products);
     } catch (error) {
       console.error(error);
       next(error);
@@ -70,16 +70,16 @@ const ProductController = {
 
   async getById(req, res) {
     try {
-      const post = await Post.findById(req.params._id)
+      const product = await Product.findById(req.params._id)
         .populate("userId")
         .populate({
           path: "reviewIds",
           populate: {
             path: "userId",
-            select: "username",
+            select: "firstName",
           },
         });
-      res.send(post);
+      res.send(product);
     } catch (error) {
       console.error(error);
     }
@@ -91,8 +91,8 @@ const ProductController = {
         return res.status(400).send("Search too long");
       }
       const title = new RegExp(req.params.name, "i");
-      const posts = await Post.find({ title });
-      res.send(posts);
+      const products = await Product.find({ title });
+      res.send(products);
     } catch (error) {
       console.log(error);
     }
@@ -101,17 +101,17 @@ const ProductController = {
   async like(req, res) {
     try {
       const loggedUser = await User.findById(req.user._id);
-      let postToLike = await Post.findById(req.params._id);
+      let productToLike = await Product.findById(req.params._id);
 
-      if (!postToLike)
-        return res.status(400).send({ message: "Post not found" });
+      if (!productToLike)
+        return res.status(400).send({ message: "Product not found" });
 
-      if (postToLike.likes.includes(req.user._id)) {
+      if (productToLike.likes.includes(req.user._id)) {
         return res.status(400).send({
-          message: `You already liked ${postToLike.userId}, post ${loggedUser.username}`,
+          message: `You already liked ${productToLike.userId}, product ${loggedUser.firstName}`,
         });
       } else {
-        postToLike = await Post.findByIdAndUpdate(
+        productToLike = await Product.findByIdAndUpdate(
           req.params._id,
           { $push: { likes: req.user._id } },
           { new: true }
@@ -121,21 +121,21 @@ const ProductController = {
           { $push: { likesList: req.params._id } },
           { new: true }
         );
-        res.send(postToLike);
+        res.send(productToLike);
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem liking the post" });
+      res.status(500).send({ message: "There was a problem liking the product" });
     }
   },
 
   async unlike(req, res) {
     try {
-      let postToUnlike = await Post.findById(req.params._id);
-      if (!postToUnlike)
-        return res.status(400).send({ message: "Post not found" });
+      let productToUnlike = await Product.findById(req.params._id);
+      if (!productToUnlike)
+        return res.status(400).send({ message: "Product not found" });
 
-      postToUnlike = await Post.findByIdAndUpdate(
+      productToUnlike = await Product.findByIdAndUpdate(
         req.params._id,
         { $pull: { likes: req.user._id } },
         { new: true }
@@ -145,12 +145,12 @@ const ProductController = {
         { $pull: { likesList: req.params._id } },
         { new: true }
       );
-      res.send(postToUnlike);
+      res.send(productToUnlike);
     } catch (error) {
       console.error(error);
       res
         .status(500)
-        .send({ message: "There was a problem unliking the post" });
+        .send({ message: "There was a problem unliking the product" });
     }
   },
 };

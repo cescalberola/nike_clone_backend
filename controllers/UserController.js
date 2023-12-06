@@ -13,15 +13,15 @@ const UserController = {
       if (req.body.password) {
         hash = bcrypt.hashSync(req.body.password, 10);
       }
-      let avatar = null;
-      if (req.file) { avatar = req.file.filename; }
+      // let avatar = null;
+      // if (req.file) { avatar = req.file.filename; }
 
       const user = await User.create({
         ...req.body,
         password: hash,
-        avatar: avatar,
+        // avatar: avatar,
         confirmed: false,
-        // role: "user",
+        role: "user",
       });
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, {
         expiresIn: "48h",
@@ -30,12 +30,12 @@ const UserController = {
       await transporter.sendMail({
         to: req.body.email,
         subject: "Please, confirm your email.",
-        html: `<body style="max-width: 1280px; margin: 0 auto; padding: 2rem; text-align: center; color: rgba(255, 255, 255, 0.87); background-color: #242424;">
+        html: `<body >
     <div>
-        <h1 style="font-size: 3.2em; line-height: 1.1; color: #646cff;">Hi there, welcome!!</h1>
-        <p style="color: rgba(255, 255, 255, 0.87);">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta consequuntur necessitatibus obcaecati, eius fuga nostrum enim illum, esse maxime rem vero dignissimos natus atque quod iure, doloribus illo sequi commodi.</p>
-        <p style="color: #535bf2;">Please click <a href="${url}" style="color: #535bf2;">here</a> to confirm.</p>
-        <p style="color: rgba(255, 255, 255, 0.87);">If you didn't register with us, ignore this email. The link will lose effect after 48 hours, and the data will be deleted from our servers.</p>
+        <h1>Hi there, welcome!!</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta consequuntur necessitatibus obcaecati, eius fuga nostrum enim illum, esse maxime rem vero dignissimos natus atque quod iure, doloribus illo sequi commodi.</p>
+        <p>Please click <a href="${url}" >here</a> to confirm.</p>
+        <p>If you didn't register with us, ignore this email. The link will lose effect after 48 hours, and the data will be deleted from our servers.</p>
     </div>
 </body>`,
       });
@@ -86,7 +86,7 @@ const UserController = {
       if (user.tokens.length > 4) user.tokens.shift();
       user.tokens.push(token);
       await user.save();
-      return res.status(200).send({ msg: `Welcome ${user.username}`, token, user });
+      return res.status(200).send({ msg: `Welcome ${user.firstName}`, token, user });
     } catch (error) {
       console.log(error);
       res
@@ -131,15 +131,15 @@ const UserController = {
 
   async getLoggedUser(req, res) {
     try {
-      const user = await User.findById({ _id: req.user._id }).populate('postIds')
+      const user = await User.findById({ _id: req.user._id }).populate('productIds')
       const numOfFollowing = user.following.length;
       const numOfFollowers = user.followers.length;
-      const numOfPosts = user.postIds.length;
+      const numOfProducts = user.productIds.length;
       const loggedUserInfo = {
         user,
         numOfFollowers,
         numOfFollowing,
-        numOfPosts,
+        numOfProducts,
       };
       res.status(200).send(loggedUserInfo);
     } catch (error) {
@@ -155,7 +155,7 @@ const UserController = {
       });
       res
         .status(200)
-        .send({ msg: `Disconnected, see you soon ${req.user.username}!` });
+        .send({ msg: `Disconnected, see you soon ${req.user.firstName}!` });
     } catch (error) {
       console.error(error);
       res.status(500).send({
@@ -172,7 +172,7 @@ const UserController = {
       if (loggedUser.following.includes(userToFollow._id)) {
         res
           .status(400)
-          .send({ msg: `Already following ${userToFollow.username}` });
+          .send({ msg: `Already following ${userToFollow.firstName}` });
       } else {
         loggedUser = await User.findByIdAndUpdate(
           req.user._id,
@@ -185,7 +185,7 @@ const UserController = {
           { new: true }
         );
         res.status(200).send({
-          msg: `${loggedUser.username} is now following ${userToFollow.username}`,
+          msg: `${loggedUser.firstName} is now following ${userToFollow.firstName}`,
           loggedUser,
           userToFollow,
         });
@@ -203,7 +203,7 @@ const UserController = {
       if (!loggedUser.following.includes(userToUnfollow._id)) {
         res
           .status(400)
-          .send({ msg: `You're not following ${userToUnfollow.username}` });
+          .send({ msg: `You're not following ${userToUnfollow.firstName}` });
       } else {
         loggedUser = await User.findByIdAndUpdate(
           req.user._id,
@@ -216,7 +216,7 @@ const UserController = {
           { new: true }
         );
         res.status(200).send({
-          msg: `${loggedUser.username} is now following ${userToUnfollow.username}`,
+          msg: `${loggedUser.firstName} is now following ${userToUnfollow.firstName}`,
           loggedUser,
           userToUnfollow,
         });
@@ -240,22 +240,22 @@ const UserController = {
       next(error);
     }
   },
-  async getByName(req, res, next) {
-    try {
-      const username = new RegExp(req.params.username, "i");
-      const foundUser = await User.find({ username });
-      if (!foundUser) {
-        return res
-          .status(400)
-          .send({ msg: `${req.params.username} not found` });
-      } else {
-        return res.status(200).send(foundUser);
-      }
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
-  },
+  // async getByName(req, res, next) {
+  //   try {
+  //     const firstName = new RegExp(req.params.firstName, "i");
+  //     const foundUser = await User.find({ firstName });
+  //     if (!foundUser) {
+  //       return res
+  //         .status(400)
+  //         .send({ msg: `${req.params.firstName} not found` });
+  //     } else {
+  //       return res.status(200).send(foundUser);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     next(error);
+  //   }
+  // },
 };
 
 module.exports = UserController;
