@@ -8,7 +8,7 @@ const ProductController = {
       const product = await Product.create({
         ...req.body,
         userId: req.user._id,
-        // image: req.file.filename,
+        image: req.file.filename,
       });
       await User.findByIdAndUpdate(
         req.user._id,

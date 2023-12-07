@@ -18,7 +18,8 @@ const upload = multer({
       file.mimetype == "image/png" ||
       file.mimetype == "image/jpg" ||
       file.mimetype == "image/jpeg" ||
-      file.mimetype == "image/gif"
+      file.mimetype == "image/gif" ||
+      file.mimetype == "image/webp"
     ) {
       callback(null, true);
     } else {
