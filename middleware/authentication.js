@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
 const Review = require("../models/Review");
+const Order = require("../models/Order");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const jwt_secret = process.env.JWT_SECRET;
@@ -47,9 +48,24 @@ const isProductAuthor = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .send({ msg: "There was an error when checking the author of the product" });
+    return res.status(500).send({
+      msg: "There was an error when checking the author of the product",
+    });
+  }
+};
+
+const isOrderAuthor = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params._id);
+    if (order.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).send({ msg: `Is not your order` });
+    }
+    next();
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({
+      msg: "There was an error when checking the author of the order",
+    });
   }
 };
 
@@ -63,9 +79,9 @@ const isReviewAuthor = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .send({ msg: "There was an error when checking the author of the product" });
+    return res.status(500).send({
+      msg: "There was an error when checking the author of the product",
+    });
   }
 };
 
@@ -75,4 +91,5 @@ module.exports = {
   isSuperAdmin,
   isProductAuthor,
   isReviewAuthor,
+  isOrderAuthor,
 };

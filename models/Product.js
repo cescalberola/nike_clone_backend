@@ -3,9 +3,11 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const ProductSchema = new mongoose.Schema(
   {
-    image: [{
-      type: String,
-    }],
+    image: [
+      {
+        type: String,
+      },
+    ],
     title: {
       type: String,
       required: [true, "Please, enter a title"],
@@ -14,7 +16,7 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, enter description"],
     },
-    sex: {
+    gender: {
       type: String,
       required: [true, "Please, enter sex"],
     },
@@ -22,7 +24,8 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, enter color"],
     },
-    size: [{ type: String, required: true }],
+    size: { type: String, required: [true, "Please, enter size"] },
+    rating: { type: Number },
     likes: [{ type: ObjectId, ref: "User" }],
     userId: { type: ObjectId, ref: "User" },
     reviewIds: [{ type: ObjectId, ref: "Review" }],
