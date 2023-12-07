@@ -22,6 +22,18 @@ const OrderController = {
       next(error);
     }
   },
+  async getById(req, res) {
+    try {
+      const order = await Order.findById(req.params._id).populate({
+        path: "userId",
+        select: "firstName lastName",
+      });
+      res.send(order);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Unexpected error getting the order");
+    }
+  },
 };
 
 module.exports = OrderController;
