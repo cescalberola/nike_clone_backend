@@ -3,9 +3,9 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const ReviewSchema = new mongoose.Schema(
   {
-    text: {
+    title: {
       type: String,
-      required: [true, "Please, enter text"],
+      required: [true, "Please, enter title"],
     },
     text: {
       type: String,

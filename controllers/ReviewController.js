@@ -5,17 +5,21 @@ const User = require("../models/User");
 const ReviewController = {
   async create(req, res, next) {
     try {
+      if (!req.body.productId) {
+        return res.status(400).json({ error: "Product ID is required" });
+      }
+
       const review = await Review.create({
         ...req.body,
         userId: req.user._id,
-        // image: req.file.filename,
       });
 
-      // await Product.findByIdAndUpdate(
-      //   req.params._id,
-      //   { $push: { reviewIds: review._id } },
-      //   { new: true }
-      // );
+      await Product.findByIdAndUpdate(
+        req.body.productId,
+        { $push: { reviewIds: review._id } },
+        { new: true }
+      );
+
       res.status(201).send(review);
     } catch (error) {
       console.error(error);
