@@ -34,6 +34,15 @@ const OrderController = {
       res.status(500).send("Unexpected error getting the order");
     }
   },
+  async delete(req, res) {
+    try {
+      await Order.findByIdAndDelete(req.params._id);
+      res.send({ message: "Order deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Unexpected error deleting the order");
+    }
+  },
 };
 
 module.exports = OrderController;

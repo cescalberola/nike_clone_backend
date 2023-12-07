@@ -9,5 +9,11 @@ const {
 
 router.post("/", authentication, OrderController.create);
 router.get("/:_id", authentication, isOrderAuthor, OrderController.getById);
+router.delete(
+  "/:_id",
+  authentication,
+  isOrderAuthor || isAdmin,
+  OrderController.delete
+);
 
 module.exports = router;
