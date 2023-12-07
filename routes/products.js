@@ -3,12 +3,7 @@ const router = express.Router();
 const upload = require("../middleware/upload");
 const ProductController = require("../controllers/ProductController");
 
-const {
-  authentication,
-  isAdmin,
-  isSuperAdmin,
-  isProductAuthor,
-} = require("../middleware/authentication");
+const { authentication, isAdmin } = require("../middleware/authentication");
 
 router.post(
   "/create",
@@ -22,7 +17,7 @@ router.delete("/:_id", authentication, isAdmin, ProductController.delete);
 // router.get("/", ProductController.getAll);
 router.get("/:_id", ProductController.getById);
 // router.get("/name/:name", ProductController.getByName);
-// router.put("/like/:_id", authentication, ProductController.like);
-// router.put("/unlike/:_id", authentication, ProductController.unlike);
+router.put("/like/:_id", authentication, ProductController.like);
+router.put("/dislike/:_id", authentication, ProductController.dislike);
 
 module.exports = router;

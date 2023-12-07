@@ -15,7 +15,9 @@ const ProductController = {
         { $push: { productIds: product._id } },
         { new: true }
       );
-      res.status(201).send({ message: "Product created successfully", product });
+      res
+        .status(201)
+        .send({ message: "Product created successfully", product });
     } catch (error) {
       console.error(error);
       next(error);
@@ -24,9 +26,13 @@ const ProductController = {
 
   async update(req, res) {
     try {
-      const product = await Product.findByIdAndUpdate(req.params._id, req.body, {
-        new: true,
-      });
+      const product = await Product.findByIdAndUpdate(
+        req.params._id,
+        req.body,
+        {
+          new: true,
+        }
+      );
       res.send({ message: "Product updated successfully!", product });
     } catch (error) {
       console.error(error);
@@ -44,29 +50,29 @@ const ProductController = {
     }
   },
 
-  async getAll(req, res, next) {
-    try {
-      const { page = 1, limit = 30 } = req.query;
-      const products = await Product.find({})
-        .populate({
-          path: "userId",
-          select: "firstName",
-        })
-        .populate({
-          path: "reviewIds",
-          populate: {
-            path: "userId",
-            select: "firstName",
-          },
-        })
-        .limit(limit)
-        .skip((page - 1) * limit);
-      res.status(200).send(products);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
-  },
+  // async getAll(req, res, next) {
+  //   try {
+  //     const { page = 1, limit = 30 } = req.query;
+  //     const products = await Product.find({})
+  //       .populate({
+  //         path: "userId",
+  //         select: "firstName",
+  //       })
+  //       .populate({
+  //         path: "reviewIds",
+  //         populate: {
+  //           path: "userId",
+  //           select: "firstName",
+  //         },
+  //       })
+  //       .limit(limit)
+  //       .skip((page - 1) * limit);
+  //     res.status(200).send(products);
+  //   } catch (error) {
+  //     console.error(error);
+  //     next(error);
+  //   }
+  // },
 
   async getById(req, res) {
     try {
@@ -85,18 +91,18 @@ const ProductController = {
     }
   },
 
-  async getByName(req, res) {
-    try {
-      if (req.params.name.length > 20) {
-        return res.status(400).send("Search too long");
-      }
-      const title = new RegExp(req.params.name, "i");
-      const products = await Product.find({ title });
-      res.send(products);
-    } catch (error) {
-      console.log(error);
-    }
-  },
+  // async getByName(req, res) {
+  //   try {
+  //     if (req.params.name.length > 20) {
+  //       return res.status(400).send("Search too long");
+  //     }
+  //     const title = new RegExp(req.params.name, "i");
+  //     const products = await Product.find({ title });
+  //     res.send(products);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
 
   async like(req, res) {
     try {
@@ -125,11 +131,13 @@ const ProductController = {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem liking the product" });
+      res
+        .status(500)
+        .send({ message: "There was a problem liking the product" });
     }
   },
 
-  async unlike(req, res) {
+  async dislike(req, res) {
     try {
       let productToUnlike = await Product.findById(req.params._id);
       if (!productToUnlike)
@@ -145,7 +153,7 @@ const ProductController = {
         { $pull: { likesList: req.params._id } },
         { new: true }
       );
-      res.send(productToUnlike);
+      res.send({ messasge: "Like removed", productToUnlike });
     } catch (error) {
       console.error(error);
       res
