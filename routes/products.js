@@ -17,13 +17,8 @@ router.post(
   upload.single("image"),
   ProductController.create
 );
-router.put(
-  "/:_id",
-  authentication,
-  isAdmin,
-  ProductController.update
-);
-// router.delete("/:_id", authentication, isProductAuthor, ProductController.delete);
+router.put("/:_id", authentication, isAdmin, ProductController.update);
+router.delete("/:_id", authentication, isAdmin, ProductController.delete);
 // router.get("/", ProductController.getAll);
 router.get("/:_id", ProductController.getById);
 // router.get("/name/:name", ProductController.getByName);
