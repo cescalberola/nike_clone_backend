@@ -50,29 +50,29 @@ const ProductController = {
     }
   },
 
-  // async getAll(req, res, next) {
-  //   try {
-  //     const { page = 1, limit = 30 } = req.query;
-  //     const products = await Product.find({})
-  //       .populate({
-  //         path: "userId",
-  //         select: "firstName",
-  //       })
-  //       .populate({
-  //         path: "reviewIds",
-  //         populate: {
-  //           path: "userId",
-  //           select: "firstName",
-  //         },
-  //       })
-  //       .limit(limit)
-  //       .skip((page - 1) * limit);
-  //     res.status(200).send(products);
-  //   } catch (error) {
-  //     console.error(error);
-  //     next(error);
-  //   }
-  // },
+  async getAll(req, res, next) {
+    try {
+      const { page = 1, limit = 30 } = req.query;
+      const products = await Product.find({})
+        .populate({
+          path: "userId",
+          select: "firstName",
+        })
+        .populate({
+          path: "reviewIds",
+          populate: {
+            path: "userId",
+            select: "firstName",
+          },
+        })
+        .limit(limit)
+        .skip((page - 1) * limit);
+      res.status(200).send(products);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  },
 
   async getById(req, res) {
     try {
