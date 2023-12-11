@@ -25,6 +25,7 @@ const ProductSchema = new mongoose.Schema(
       required: [true, "Please, enter color"],
     },
     size: { type: String, required: [true, "Please, enter size"] },
+    price: {type: Number, required: [true, "Please, enter price"]},
     rating: { type: Number },
     likes: [{ type: ObjectId, ref: "User" }],
     userId: { type: ObjectId, ref: "User" },
