@@ -28,7 +28,7 @@ const upload = multer({
     }
   },
   limits: {
-    fileSize: 1024 * 100,
+    fileSize: 1024 * 150,
     files: 200
   },
 });
