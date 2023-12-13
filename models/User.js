@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    zipCode: {
+    verificationCode: {
       type: String,
       required: [true, "Please, enter a Zip Code"],
     },
@@ -27,13 +27,13 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Please, enter a password"],
     },
     shoppingPreference: String,
-    dateOfBirth: {
+    birthDay: {
       type: Date,
       required: [true, "Please, enter an email"],
     },
-    emailUpdates: Boolean,
-    agree: {
-      type: String,
+    marketingOptIn: Boolean,
+    privacyTerms: {
+      type: Boolean,
       required: [true, "Please, first agree with the Privacy Policy and Terms of Use"],
     },
     role: {
