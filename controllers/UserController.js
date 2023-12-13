@@ -7,6 +7,23 @@ const transporter = require("../config/nodemailer");
 const fs = require("fs").promises;
 
 const UserController = {
+
+  async checkEmail(req, res) {
+    try {
+      const { email } = req.body;
+      const user = await User.findOne({ email });
+      if (user) {
+        // Email is registered
+        return res.status(200).send({ registered: true });
+      }
+      // Email is not registered
+      return res.status(200).send({ registered: false });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: 'Internal Server Error' });
+    }
+  },
+
   async create(req, res, next) {
     try {
       let hash = "";
