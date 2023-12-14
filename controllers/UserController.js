@@ -13,10 +13,9 @@ const UserController = {
       const { email } = req.body;
       const user = await User.findOne({ email });
       if (user) {
-        // Email is registered
+
         return res.status(200).send({ registered: true });
       }
-      // Email is not registered
       return res.status(200).send({ registered: false });
     } catch (error) {
       console.error(error);
@@ -52,10 +51,6 @@ const UserController = {
     </div>
 </body>`,
       });
-      // const token = jwt.sign({ _id: user._id }, jwt_secret);
-      // user.tokens.push(token);
-      // await user.save();
-      // res.status(201).send({ msg: "User created successfully.", loggedUser: user, token });
       res.status(201).send({ msg: "User created successfully.", newUser });
     } catch (error) {
       next(error);
@@ -250,22 +245,6 @@ const UserController = {
       next(error);
     }
   },
-  // async getByName(req, res, next) {
-  //   try {
-  //     const firstName = new RegExp(req.params.firstName, "i");
-  //     const foundUser = await User.find({ firstName });
-  //     if (!foundUser) {
-  //       return res
-  //         .status(400)
-  //         .send({ msg: `${req.params.firstName} not found` });
-  //     } else {
-  //       return res.status(200).send(foundUser);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     next(error);
-  //   }
-  // },
 };
 
 module.exports = UserController;

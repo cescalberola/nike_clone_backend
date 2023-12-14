@@ -16,7 +16,6 @@ router.put("/:_id", authentication, isAdmin, ProductController.update);
 router.delete("/:_id", authentication, isAdmin, ProductController.delete);
 router.get("/", ProductController.getAll);
 router.get("/:_id", ProductController.getById);
-// router.get("/name/:name", ProductController.getByName);
 router.put("/like/:_id", authentication, ProductController.like);
 router.put("/dislike/:_id", authentication, ProductController.dislike);
 

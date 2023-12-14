@@ -10,13 +10,6 @@ const OrderSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-// OrderSchema.methods.toJSON = function () {
-//     const order = this._doc;
-//     delete order.tokens;
-//     delete order.password;
-//     return order;
-// };
-
 const Order = mongoose.model("Prder", OrderSchema);
 
 module.exports = Order;

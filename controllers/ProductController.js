@@ -91,19 +91,6 @@ const ProductController = {
     }
   },
 
-  // async getByName(req, res) {
-  //   try {
-  //     if (req.params.name.length > 20) {
-  //       return res.status(400).send("Search too long");
-  //     }
-  //     const title = new RegExp(req.params.name, "i");
-  //     const products = await Product.find({ title });
-  //     res.send(products);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
-
   async like(req, res) {
     try {
       const loggedUser = await User.findById(req.user._id);

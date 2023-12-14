@@ -4,8 +4,6 @@ const ReviewController = require("../controllers/ReviewController");
 const {
   authentication,
   isAdmin,
-  isSuperAdmin,
-  isReviewAuthor,
 } = require("../middleware/authentication");
 router.post(
   "/:_id",

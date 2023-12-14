@@ -30,13 +30,6 @@ const ReviewController = {
   async delete(req, res) {
     try {
       await Review.findByIdAndDelete(req.params._id);
-
-      // await Product.findOneAndUpdate(
-      //   { reviewIds: req.params._id },
-      //   { $pull: { reviewIds: req.params._id } },
-      //   { new: true }
-      // );
-
       res.status(200).send({ message: "Review deleted succesfully." });
     } catch (error) {
       console.error(error);
