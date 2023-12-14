@@ -234,7 +234,7 @@ const UserController = {
 
   async getById(req, res, next) {
     try {
-      const foundUser = await User.findById({ _id: `req.params._id` });
+      const foundUser = await User.findById({ _id: req.params._id });
       if (!foundUser) {
         return res.status(400).send({ msg: `ID: ${req.params._id} not found` });
       } else {
